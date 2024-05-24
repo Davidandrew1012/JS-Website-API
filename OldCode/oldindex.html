@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pokémon Type Battle</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="main-container">
+      <h1>Pokémon Type Battle</h1>
+      <nav class="navbar">
+        <a href="#" id="choose-team"><h3>Choose Your Team!</h3></a>
+        <a href="#" id="battle-time"><h3>Time To Battle!</h3></a>
+      </nav>
+      <hr />
+      <div id="pokemon-list"></div>
+      <div id="favorites-list">
+        <h2>Favorites</h2>
+        <!-- Favorites list will be populated dynamically -->
+      </div>
+      <div class="action-container">
+        <div id="button-container">
+          <button id="battle-button" disabled>
+            <img src="Pokemon-Pokeball-PNG-File.png" alt="" />
+            Battle
+          </button>
+        </div>
+        <div id="battle-container">
+          <div id="player-pokemon" class="battle-pokemon">
+            <img id="player-sprite" src="questionMark.webp" alt="" />
+            <p id="player-name"></p>
+          </div>
+          <div id="enemy-pokemon" class="battle-pokemon">
+            <img id="enemy-sprite" src="questionMark.webp" alt="" />
+            <p id="enemy-name"></p>
+          </div>
+        </div>
+        <div id="result"></div>
+      </div>
+    </div>
+    <script src="main.js"></script>
+  </body>
+</html>

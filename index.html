@@ -3,39 +3,28 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Pokémon Type Battle</title>
+    <title>Featured Pokemon</title>
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
-    <div class="main-container">
-      <h1>Pokémon Type Battle</h1>
-      <nav class="navbar">
-        <h3>Choose your favorites</h3>
-        <h3>My Favorites</h3>
-        <h3>Time To Battle!</h3>
-      </nav>
-      <hr />
-      <div id="pokemon-list"></div>
-      <div class="action-container">
-        <div id="button-container">
-          <button id="battle-button" disabled>
-            <img src="Pokemon-Pokeball-PNG-File.png" alt="" />
-            Battle
-          </button>
-        </div>
-        <div id="battle-container">
-          <div id="player-pokemon" class="battle-pokemon">
-            <img id="player-sprite" src="questionMark.webp" alt="" />
-            <p id="player-name"></p>
-          </div>
-          <div id="enemy-pokemon" class="battle-pokemon">
-            <img id="enemy-sprite" src="questionMark.webp" alt="" />
-            <p id="enemy-name"></p>
-          </div>
-        </div>
-        <div id="result"></div>
-      </div>
+    <div>
+      <h2>Featured Pokemon</h2>
+      <div id="featured-pokemon"></div>
+      <button id="sort-featured">Sort A-Z</button>
+      <button id="sort-featured-type">Sort by Type</button>
     </div>
+
+    <div>
+      <h2>Favorite Team</h2>
+      <div id="favorite-team"></div>
+      <button id="sort-favorites">Sort A-Z</button>
+      <button id="sort-favorites-type">Sort by Type</button>
+    </div>
+
+    <button id="toggle-favorites">Toggle Favorites</button>
+
+    <div id="pokemon-card"></div>
+
     <script src="main.js"></script>
   </body>
 </html>
