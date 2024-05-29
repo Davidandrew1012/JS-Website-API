@@ -1,6 +1,35 @@
 body {
    font-family: Arial, sans-serif;
-   margin: 20px;
+   margin: 0;
+   background-color: #77B0AA;
+   color: #003C43;
+}
+
+nav {
+   text-align: center;
+   background-color: #134D66;
+   color: floralwhite;
+}
+
+nav img {
+   width: 5rem;
+   margin-right: 2rem;
+}
+
+nav h1 {
+   font-size: 3.25rem;
+    font-weight: 700;
+}
+
+nav p {
+   font-size: 1.25rem;
+   font-weight: 600;
+}
+
+.title-container {
+   justify-content: center;
+    display: flex;
+    align-items: center;
 }
 
 button {
@@ -8,28 +37,231 @@ button {
    padding: 10px;
    border: none;
    cursor: pointer;
-   color: white;
+   color: black;
+   font-weight: 700;
+   border-radius: 5px;
+}
+
+button.toggle-off {
+   background: linear-gradient(to bottom right, red, white, white);
+   border: solid 2px black;
+}
+
+button.toggle-on {
+   background: linear-gradient(to bottom left, blue, white, blue);
+   border: solid 2px black;
 }
 
 button.water {
-   background-color: blue;
+   background-color: #6890F0;
+   color: aliceblue;
 }
 
 button.fire {
-   background-color: orange;
+   background-color: #F08030;
+   color: aliceblue;
 }
 
 button.grass {
-   background-color: green;
+   background-color: #78C850;
+   color: aliceblue;
+}
+
+.pokemon-card-wrapper {
+   margin-top: 2rem;
+    margin-left: 7rem;
+    text-align: center;
+}
+
+.pokemon-card-wrapper p {
+   font-weight: 700;
 }
 
 #pokemon-card {
    margin-top: 20px;
    padding: 10px;
-   border: 1px solid #ccc;
+   border: 10px solid #2b2170;
+   text-align: center;
+   min-width: 245px;
+   min-height: 265px;
+   font-weight: 700;
+   border-radius: 5px;
+   background-color: #E3FEF7;
 }
 
 #pokemon-card img {
    display: block;
-   margin: 10px 0;
+   margin: 2rem;
+   width: 20rem;
 }
+
+#pokemon-card h3 {
+   font-size: 2rem;
+   margin: 0;
+}
+
+#pokemon-card p {
+   font-size: 1.5rem;
+   margin: 0;
+}
+
+#question {
+   width: 96px;
+}
+
+.header-row {
+   display: flex;
+   align-items: center;
+   gap: 10px;
+}
+
+.sort-buttons {
+   display: flex;
+   gap: 10px;
+}
+
+/* New grid container styles */
+.container {
+   display: grid;
+   grid-template-columns: 1fr auto;
+   grid-template-rows: auto auto;
+   /* gap: 40px; */
+   max-width: 1200px;
+   margin-top: 4rem;
+   margin: auto;
+   align-items: center;
+}
+
+.featured {
+   grid-column: 1;
+   grid-row: 1;
+   display: flex;
+   flex-direction: column;
+   gap: 10px;
+}
+
+.favorites {
+   grid-column: 1;
+   grid-row: 2;
+   display: flex;
+   flex-direction: column;
+   gap: 10px;
+}
+
+.pokemon-card-wrapper {
+   grid-column: 2;
+   grid-row: 1 / span 2;
+}
+
+
+@media only screen and (max-width: 600px) {
+   nav img {
+     width: 3rem;
+     margin-right: 1rem;
+   }
+ 
+   nav h1 {
+     font-size: 1.8rem;
+   }
+ 
+   nav p {
+     font-size: 0.8rem;
+   }
+ 
+   .container {
+     padding: 10px;
+   }
+ 
+   .featured, .favorites {
+     padding: 10px;
+   }
+ 
+   .sort-buttons button {
+     font-size: 0.8rem;
+   }
+ 
+   #featured-pokemon button, #favorite-team button {
+     flex: 0 0 100%;
+   }
+ 
+   .pokemon-card-wrapper {
+     margin-left: 0;
+   }
+ 
+   #pokemon-card {
+     min-width: unset;
+   }
+ }
+ 
+ /* CSS for smaller devices (e.g., smartphones) */
+
+
+ @media (max-width: 1200px) {
+   .container {
+     display: flex;
+     flex-direction: column;
+     max-width: 50rem;
+   }
+
+   .featured, .favorites {
+      text-align: center;
+      align-items: center;
+   }
+
+   .sort-buttons {
+      justify-content: center;
+   }
+ 
+   .pokemon-card-wrapper {
+     order: 3; /* Place pokemon-card-wrapper at the end */
+     margin: 0;
+   }
+ }
+
+ @media only screen and (max-width: 750px) {
+   nav img {
+     width: 2.5rem;
+     margin-right: 0.5rem;
+   }
+ 
+   nav h1 {
+     font-size: 2.5rem;
+   }
+ 
+   nav p {
+      font-size: 1rem;
+      max-width: 25rem;
+      margin: auto;
+   }
+ 
+   .container {
+     padding: 5px;
+   }
+ 
+   .featured, .favorites {
+     padding: 5px;
+   }
+ 
+   .sort-buttons button {
+     font-size: 0.7rem;
+   }
+ 
+   #featured-pokemon button, #favorite-team button {
+     flex: 0 0 100%;
+   }
+ 
+   .pokemon-card-wrapper {
+     margin-left: 0;
+   }
+ 
+   #pokemon-card {
+     min-width: unset;
+   }
+ }
+
+
+ @media only screen and (max-width: 500px) {
+   nav img {
+      display: none;
+   }
+ }

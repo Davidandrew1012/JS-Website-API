@@ -9,22 +9,36 @@ document.addEventListener("DOMContentLoaded", () => {
   const sortFavoritesTypeButton = document.getElementById(
     "sort-favorites-type"
   );
+  const totalFeaturedSpan = document.getElementById("total-featured");
+  const totalFavoritesSpan = document.getElementById("total-favorites");
+  const grassFavoritesSpan = document.getElementById("grass-favorites");
+  const fireFavoritesSpan = document.getElementById("fire-favorites");
+  const waterFavoritesSpan = document.getElementById("water-favorites");
 
   let toggleFavorites = false;
   const pokemonIds = [
     1, 2, 3, 44, 45, 70, 71, 102, 103, 114, 7, 8, 9, 61, 79, 87, 99, 116, 130,
     131, 4, 5, 6, 37, 38, 58, 59, 77, 78, 126,
   ];
-  const pokemonData = [];
+  let pokemonData = [];
   let favoritePokemon = [];
 
   async function fetchPokemonData() {
-    for (const id of pokemonIds) {
-      const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}`);
-      const data = await response.json();
-      pokemonData.push(data);
+    try {
+      const promises = pokemonIds.map(async (id) => {
+        const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}`);
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        const data = await response.json();
+        return data;
+      });
+      pokemonData = await Promise.all(promises);
+      displayPokemon(featuredPokemonContainer, pokemonData);
+      updateTallies();
+    } catch (error) {
+      console.error("Error fetching Pokémon data:", error);
     }
-    displayPokemon(featuredPokemonContainer, pokemonData);
   }
 
   function capitalizeName(name) {
@@ -46,69 +60,73 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function handlePokemonClick(pokemon) {
-    if (toggleFavorites) {
-      if (pokemonData.includes(pokemon)) {
-        moveToFavorites(pokemon);
-      } else {
-        moveToFeatured(pokemon);
-      }
-    } else {
+    if (!toggleFavorites) {
       showPokemonCard(pokemon);
+    } else {
+      if (favoritePokemon.includes(pokemon)) {
+        moveToFeatured(pokemon);
+      } else {
+        moveToFavorites(pokemon);
+      }
     }
   }
 
   function moveToFavorites(pokemon) {
-    pokemonData.splice(pokemonData.indexOf(pokemon), 1);
     favoritePokemon.push(pokemon);
+    pokemonData = pokemonData.filter((p) => p !== pokemon);
     displayPokemon(featuredPokemonContainer, pokemonData);
     displayPokemon(favoriteTeamContainer, favoritePokemon);
+    updateTallies();
   }
 
   function moveToFeatured(pokemon) {
-    favoritePokemon.splice(favoritePokemon.indexOf(pokemon), 1);
     pokemonData.push(pokemon);
+    favoritePokemon = favoritePokemon.filter((p) => p !== pokemon);
     displayPokemon(featuredPokemonContainer, pokemonData);
     displayPokemon(favoriteTeamContainer, favoritePokemon);
+    updateTallies();
   }
 
   function showPokemonCard(pokemon) {
     pokemonCard.innerHTML = `
-           <h3>${capitalizeName(pokemon.name)}</h3>
-           <img src="${pokemon.sprites.front_default}" alt="${pokemon.name}">
-           <p>Type: ${pokemon.types
-             .map((type) => capitalizeName(type.type.name))
-             .join(", ")}</p>
-           <p>Advantage against: ${capitalizeName(
-             getAdvantage(pokemon.types)
-           )}</p>
-       `;
+            <h3>${capitalizeName(pokemon.name)}</h3>
+            <img src="${pokemon.sprites.front_default}" alt="${pokemon.name}">
+            <p>Type: ${pokemon.types
+              .map((type) => capitalizeName(type.type.name))
+              .join(", ")}</p>
+            <p>Advantage against: ${capitalizeName(
+              getAdvantage(pokemon.types)
+            )}</p>
+        `;
   }
 
   function getAdvantage(types) {
-    const type = types
-      .map((type) => type.type.name)
-      .find((type) => ["water", "fire", "grass"]);
-    if (type === "water") return "fire";
-    if (type === "fire") return "grass";
-    if (type === "grass") return "water";
-    return "none";
+    const advantages = {
+      water: "fire",
+      fire: "grass",
+      grass: "water",
+    };
+    const typeAdvantages = types.map((type) => advantages[type.type.name]);
+    return (
+      typeAdvantages.filter((advantage) => advantage !== undefined)[0] || "none"
+    );
   }
 
-  function sortPokemon(list, order) {
-    list.sort((a, b) => a.name.localeCompare(b.name) * order);
-  }
-
-  function sortPokemonByType(list) {
-    const typeOrder = { grass: 1, fire: 2, water: 3 };
-    list.sort((a, b) => {
-      const aType = a.types
-        .map((type) => type.type.name)
-        .find((type) => ["grass", "fire", "water"]);
-      const bType = b.types
-        .map((type) => type.type.name)
-        .find((type) => ["grass", "fire", "water"]);
-      return (typeOrder[aType] || 4) - (typeOrder[bType] || 4);
-    });
+  function updateTallies() {
+    totalFeaturedSpan.textContent = pokemonData.length;
+    totalFavoritesSpan.textContent = favoritePokemon.length;
+    const grassCount = favoritePokemon.filter((pokemon) =>
+      pokemon.types.map((type) => type.type.name).includes("grass")
+    ).length;
+    const fireCount = favoritePokemon.filter((pokemon) =>
+      pokemon.types.map((type) => type.type.name).includes("fire")
+    ).length;
+    const waterCount = favoritePokemon.filter((pokemon) =>
+      pokemon.types.map((type) => type.type.name).includes("water")
+    ).length;
+    grassFavoritesSpan.textContent = grassCount;
+    fireFavoritesSpan.textContent = fireCount;
+    waterFavoritesSpan.textContent = waterCount;
   }
 
   sortFeaturedButton.addEventListener("click", () => {
@@ -138,9 +156,14 @@ document.addEventListener("DOMContentLoaded", () => {
   toggleFavoritesButton.addEventListener("click", () => {
     toggleFavorites = !toggleFavorites;
     toggleFavoritesButton.textContent = toggleFavorites
-      ? "Toggle Off"
+      ? "Toggle Pokemon Stats"
       : "Toggle Favorites";
+    toggleFavoritesButton.className = toggleFavorites
+      ? "toggle-on"
+      : "toggle-off";
   });
+
+  toggleFavoritesButton.className = "toggle-off";
 
   fetchPokemonData();
 });

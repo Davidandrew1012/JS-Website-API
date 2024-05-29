@@ -3,27 +3,60 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Featured Pokemon</title>
+    <title>Pokemon Roshambo!</title>
     <link rel="stylesheet" href="styles.css" />
+    <link rel="icon" href="Pokemon-Pokeball-PNG-File.png" type="image/png" />
   </head>
   <body>
-    <div>
-      <h2>Featured Pokemon</h2>
-      <div id="featured-pokemon"></div>
-      <button id="sort-featured">Sort A-Z</button>
-      <button id="sort-featured-type">Sort by Type</button>
+    <nav>
+      <div class="title-container">
+        <img src="pokeball-pokemon-ball-2.png" alt="Pokeball" />
+        <h1>Pokemon Roshambo!</h1>
+      </div>
+      <p>
+        Click on a Pokemon to see its type advantage, choose your favorite team!
+      </p>
+      <hr />
+    </nav>
+    <div class="container">
+      <div class="featured">
+        <h2>Featured Pokemon</h2>
+        <div id="featured-pokemon"></div>
+        <div class="sort-buttons">
+          <button id="sort-featured" class="sort">Sort A-Z</button>
+          <button id="sort-featured-type" class="sort">Sort by Type</button>
+        </div>
+        <div>Total: <span id="total-featured">0</span></div>
+      </div>
+      <div class="favorites">
+        <div class="header-row">
+          <h2>Favorite Team</h2>
+        </div>
+        <div id="favorite-team"></div>
+        <div class="sort-buttons">
+          <button id="sort-favorites" class="sort">Sort A-Z</button>
+          <button id="sort-favorites-type" class="sort">Sort by Type</button>
+        </div>
+        <div>
+          Total: <span id="total-favorites">0</span><br />
+          Grass: <span id="grass-favorites">0</span>, Fire:
+          <span id="fire-favorites">0</span>, Water:
+          <span id="water-favorites">0</span>
+        </div>
+      </div>
+      <div class="pokemon-card-wrapper">
+        <p>Use this button to toggle favorite selection:</p>
+        <button id="toggle-favorites">Toggle Favorites</button>
+        <div id="pokemon-card">
+          <h3>Pokemon Name</h3>
+          <img src="questionMark.webp" alt="Placeholder Sprite" />
+          <p>Type: None</p>
+          <p>Advantage against: None</p>
+        </div>
+      </div>
     </div>
 
-    <div>
-      <h2>Favorite Team</h2>
-      <div id="favorite-team"></div>
-      <button id="sort-favorites">Sort A-Z</button>
-      <button id="sort-favorites-type">Sort by Type</button>
-    </div>
-
-    <button id="toggle-favorites">Toggle Favorites</button>
-
-    <div id="pokemon-card"></div>
+    <br /><br />
 
     <script src="main.js"></script>
   </body>
