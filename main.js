@@ -143,6 +143,8 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
+  //sort fixed
+
   sortFeaturedButton.addEventListener("click", () => {
     const order = sortFeaturedButton.textContent.includes("A-Z") ? 1 : -1;
     sortPokemon(pokemonData, order);

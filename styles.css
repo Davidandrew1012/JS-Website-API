@@ -192,8 +192,6 @@ button.grass {
      min-width: unset;
    }
  }
- 
- /* CSS for smaller devices (e.g., smartphones) */
 
 
  @media (max-width: 1200px) {
@@ -213,7 +211,7 @@ button.grass {
    }
  
    .pokemon-card-wrapper {
-     order: 3; /* Place pokemon-card-wrapper at the end */
+     order: 3;
      margin: 0;
    }
  }
