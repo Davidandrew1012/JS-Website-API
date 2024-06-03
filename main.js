@@ -89,15 +89,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function showPokemonCard(pokemon) {
     pokemonCard.innerHTML = `
-            <h3>${capitalizeName(pokemon.name)}</h3>
-            <img src="${pokemon.sprites.front_default}" alt="${pokemon.name}">
-            <p>Type: ${pokemon.types
-              .map((type) => capitalizeName(type.type.name))
-              .join(", ")}</p>
-            <p>Advantage against: ${capitalizeName(
-              getAdvantage(pokemon.types)
-            )}</p>
-        `;
+      <h3>${capitalizeName(pokemon.name)}</h3>
+      <img src="${pokemon.sprites.front_default}" alt="${pokemon.name}">
+      <p>Type: ${pokemon.types
+        .map((type) => capitalizeName(type.type.name))
+        .join(", ")}</p>
+      <p>Advantage against: ${capitalizeName(getAdvantage(pokemon.types))}</p>
+    `;
   }
 
   function getAdvantage(types) {
@@ -115,18 +113,34 @@ document.addEventListener("DOMContentLoaded", () => {
   function updateTallies() {
     totalFeaturedSpan.textContent = pokemonData.length;
     totalFavoritesSpan.textContent = favoritePokemon.length;
-    const grassCount = favoritePokemon.filter((pokemon) =>
-      pokemon.types.map((type) => type.type.name).includes("grass")
-    ).length;
-    const fireCount = favoritePokemon.filter((pokemon) =>
-      pokemon.types.map((type) => type.type.name).includes("fire")
-    ).length;
-    const waterCount = favoritePokemon.filter((pokemon) =>
-      pokemon.types.map((type) => type.type.name).includes("water")
-    ).length;
-    grassFavoritesSpan.textContent = grassCount;
-    fireFavoritesSpan.textContent = fireCount;
-    waterFavoritesSpan.textContent = waterCount;
+
+    const data = {
+      grass: grassFavoritesSpan,
+      fire: fireFavoritesSpan,
+      water: waterFavoritesSpan,
+    };
+
+    Object.entries(data).forEach(([key, value]) => {
+      value.innerText = favoritePokemon.filter((pokemon) =>
+        pokemon.types.map((type) => type.type.name).includes(key)
+      ).length;
+    });
+  }
+
+  function sortPokemon(data, order) {
+    data.sort((a, b) => {
+      if (a.name < b.name) return -order;
+      if (a.name > b.name) return order;
+      return 0;
+    });
+  }
+
+  function sortPokemonByType(data) {
+    data.sort((a, b) => {
+      if (a.types[0].type.name < b.types[0].type.name) return -1;
+      if (a.types[0].type.name > b.types[0].type.name) return 1;
+      return 0;
+    });
   }
 
   sortFeaturedButton.addEventListener("click", () => {
@@ -136,16 +150,16 @@ document.addEventListener("DOMContentLoaded", () => {
     sortFeaturedButton.textContent = order === 1 ? "Sort Z-A" : "Sort A-Z";
   });
 
-  sortFeaturedTypeButton.addEventListener("click", () => {
-    sortPokemonByType(pokemonData);
-    displayPokemon(featuredPokemonContainer, pokemonData);
-  });
-
   sortFavoritesButton.addEventListener("click", () => {
     const order = sortFavoritesButton.textContent.includes("A-Z") ? 1 : -1;
     sortPokemon(favoritePokemon, order);
     displayPokemon(favoriteTeamContainer, favoritePokemon);
     sortFavoritesButton.textContent = order === 1 ? "Sort Z-A" : "Sort A-Z";
+  });
+
+  sortFeaturedTypeButton.addEventListener("click", () => {
+    sortPokemonByType(pokemonData);
+    displayPokemon(featuredPokemonContainer, pokemonData);
   });
 
   sortFavoritesTypeButton.addEventListener("click", () => {
